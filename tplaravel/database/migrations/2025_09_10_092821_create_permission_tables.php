@@ -113,22 +113,26 @@ return new class extends Migration
             $table->primary([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
         });
 
-        $role = Role::create(['name' => 'admin']);
+        $roleUser = Role::create(['name' => 'user']);
+
         $permissions = collect([
-            Permission::create(['name' => 'create meal']),
-            Permission::create(['name' => 'delete meal']),
-            Permission::create(['name' => 'update meal']),
             Permission::create(['name' => 'read meal']),
             Permission::create(['name' => 'favorite meal']),
-
         ]);
 
-        $role->givePermissionTo($permissions);
+        $roleUser->givePermissionTo($permissions);
 
-        $role = Role::create(['name' => 'user']);
-        $permissions.
 
-        $role->givePermissionTo($permissions);
+        $role = Role::create(['name' => 'admin']);
+
+        $permAdmin = $permissions;
+        $permAdmin->push(Permission::create(['name' => 'create meal']));
+        $permAdmin->push(Permission::create(['name' => 'delete meal']));
+        $permAdmin->push(Permission::create(['name' => 'update meal']));
+
+        $role->givePermissionTo($permAdmin);
+
+
 
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
