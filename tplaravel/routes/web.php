@@ -35,6 +35,12 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::middleware(['auth'])->get('/meals', [PostController::class, 'Meals'])
+    ->name('meals.show');
+
+Route::middleware(['auth'])->get('/meal/{id}', [PostController::class, 'Meal'])
+    ->name('meal.show');
+
 Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'mealPost']) ->name('meal.create');
 
 require __DIR__.'/auth.php';

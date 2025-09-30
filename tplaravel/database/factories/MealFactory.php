@@ -23,7 +23,7 @@ class MealFactory extends Factory
         return [
             'image' => fake()->imageUrl($width = 640, $height = 480),
             'title' => $faker->foodName(),
-            'recipie' => fake()->text(),
+            'recipie' => encrypt( fake()->text()),
             'user_id' => User::factory(),
         ];
     }

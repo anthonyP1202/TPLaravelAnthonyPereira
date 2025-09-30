@@ -12,11 +12,18 @@ class postController extends Controller
 {
     public function meals(){
         $posts = Meal::all();
+        foreach($posts as $post){
+            $post -> recipie = decrypt($post -> recipie);
+        }
         //$likedPosts = User::findOrFail($userId)->meals()->get();
         return response()->json($posts);
     }
 
-    public function meal($id){}
+    public function meal($id){
+        $post = Meal::find($id);
+        $post -> recipie = decrypt($post -> recipie);
+        return response()->json($post);
+    }
 
     public function mealPost(Request $request){
 
