@@ -41,6 +41,13 @@ Route::middleware(['auth'])->get('/meals', [PostController::class, 'Meals'])
 Route::middleware(['auth'])->get('/meal/{id}', [PostController::class, 'Meal'])
     ->name('meal.show');
 
-Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'mealPost']) ->name('meal.create');
+Route::middleware(['auth'])->get('/deleteMeal/{id}', [PostController::class, 'deleteMeal'])
+    ->name('meal.delete');
+
+Route::middleware(['auth'])->post('/editMeal/{id}', [PostController::class, 'editPost'])
+    ->name('meal.edit');
+
+Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'mealPost'])
+    ->name('meal.create');
 
 require __DIR__.'/auth.php';

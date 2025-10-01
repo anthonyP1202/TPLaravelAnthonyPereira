@@ -25,6 +25,11 @@ class postController extends Controller
         return response()->json($post);
     }
 
+    public function deleteMeal($id){
+        $post = Meal::find($id);
+        $post -> delete();
+    }
+
     public function mealPost(Request $request){
 
         $request->validate([
@@ -45,6 +50,33 @@ class postController extends Controller
         $request->file('image')->storeAs('public/images', $filename);
 
         $post -> image = $filename;
+        $post -> save();
+
+        return redirect()->route('dashboard');
+    }
+
+    public function editPost($id, Request $request){
+
+        $post = Meal :: find($id);
+        if ($request->input("title") != null) {
+            $post->title = $request->input("title");
+        }
+
+        if ($request->input("recipie") != null) {
+            $encryptedRecipe = encrypt($request->input("recipie"));
+            $post -> recipie = $encryptedRecipe;
+        }
+
+        if ($request->file('image') != null) {
+            $filetype = $request->file('image')->getClientOriginalExtension();
+            $filename = $post ->id . "." . $filetype;
+            $request->validate([
+                'image' => 'required|image|mimes:jpg,jpeg,png',
+            ]);
+            $request->file('image')->storeAs('public/images', $filename);
+            $post -> image = $filename;
+        }
+
         $post -> save();
 
         return redirect()->route('dashboard');
