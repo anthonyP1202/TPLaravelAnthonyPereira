@@ -10,7 +10,7 @@ use mysql_xdevapi\Exception;
 
 class postController extends Controller
 {
-    public function meals(){
+    public function Meals(){
         $posts = Meal::all();
         foreach($posts as $post){
             $post -> recipie = decrypt($post -> recipie);
@@ -19,18 +19,24 @@ class postController extends Controller
         return response()->json($posts);
     }
 
-    public function meal($id){
-        $post = Meal::find($id);
+    public function Meal($id){
+        $post = Meal::findOrFail($id);
         $post -> recipie = decrypt($post -> recipie);
         return response()->json($post);
     }
 
-    public function deleteMeal($id){
-        $post = Meal::find($id);
+    public function Edit($id){
+        $post = Meal::findOrFail($id);
+        $post -> recipie = decrypt($post -> recipie);
+        return view('meal.edit', ['post' => $post]);
+    }
+
+    public function DeleteMeal($id){
+        $post = Meal::findOrFail($id);
         $post -> delete();
     }
 
-    public function mealPost(Request $request){
+    public function MealPost(Request $request){
 
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png',
@@ -55,7 +61,7 @@ class postController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function editPost($id, Request $request){
+    public function EditPost($id, Request $request){
 
         $post = Meal :: find($id);
         if ($request->input("title") != null) {

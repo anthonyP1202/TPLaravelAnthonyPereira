@@ -35,19 +35,22 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::middleware(['auth'])->get('/meal/{id}/edit', [PostController::class, 'Edit'])
+    ->name('meal.redirect.edit');
+
 Route::middleware(['auth'])->get('/meals', [PostController::class, 'Meals'])
     ->name('meals.show');
 
 Route::middleware(['auth'])->get('/meal/{id}', [PostController::class, 'Meal'])
     ->name('meal.show');
 
-Route::middleware(['auth'])->get('/deleteMeal/{id}', [PostController::class, 'deleteMeal'])
+Route::middleware(['auth'])->get('/deleteMeal/{id}', [PostController::class, 'DeleteMeal'])
     ->name('meal.delete');
 
-Route::middleware(['auth'])->post('/editMeal/{id}', [PostController::class, 'editPost'])
+Route::middleware(['auth'])->post('/editMeal/{id}', [PostController::class, 'EditPost'])
     ->name('meal.edit');
 
-Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'mealPost'])
+Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'MealPost'])
     ->name('meal.create');
 
 require __DIR__.'/auth.php';

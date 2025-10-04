@@ -14,7 +14,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('meal.edit') }}" method="POST" enctype="multipart/form-data" novalidate>
+                <form action="{{ route('meal.edit', $post->id) }}" method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
 
                     {{-- Title --}}
@@ -24,7 +24,7 @@
                             id="title"
                             name="title"
                             type="text"
-                            value="{{ old('title') }}"
+                            value="{{ $post->title }}"
                             class="w-full border rounded p-2 @error('title') border-red-500 @enderror"
                             required
                         >
@@ -42,32 +42,14 @@
                             rows="5"
                             class="w-full border rounded p-2 @error('description') border-red-500 @enderror"
                             required
-                        >{{ old('description') }}</textarea>
+                        >{{ $post->recipie }}</textarea>
                         @error('description')
                         <p class="text-red-600 mt-1 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    {{-- Image --}}
-                    <div class="mb-4">
-                        <label for="image" class="block font-medium mb-1">Image (PNG, JPG, JPEG)</label>
-                        <input
-                            id="image"
-                            name="image"
-                            type="file"
-                            accept=".png,.jpg,.jpeg,image/png,image/jpeg"
-                            class="@error('image') border-red-500 @enderror"
-                        >
-                        @error('image')
-                        <p class="text-red-600 mt-1 text-sm">{{ $message }}</p>
-                        @enderror
-
-                        {{-- Optional preview --}}
-                        <div id="preview" class="mt-3"></div>
-                    </div>
-
                     <div class="flex items-center gap-2">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Post</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Edit Post</button>
                         <a href="{{ url()->previous() }}" class="px-3 py-2 border rounded text-gray-700">Cancel</a>
                     </div>
                 </form>
