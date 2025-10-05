@@ -8,6 +8,7 @@ use App\Models\Meal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 use mysql_xdevapi\Exception;
 
 class postController extends Controller
@@ -57,12 +58,19 @@ class postController extends Controller
         $request->file('image')->storeAs('public/images', $filename);
 
         $post -> image = $filename;
+
+        Mail::raw("Your post was successfully created!", function ($message) {
+            $message->to("test@mail.com")->subject("Your post was successfully created!");
+        });
+
         $post -> save();
 
         return redirect()->route('dashboard');
     }
 
     public function EditPost($id, MealEditRequest $request){
+
+
 
         $post = Meal :: find($id);
         if ($request->input("title") != null) {
@@ -74,7 +82,7 @@ class postController extends Controller
             $post -> recipie = $encryptedRecipe;
         }
 
-        if ($request->file('image') != null) {
+        if ($request->file('image') != null) { //proly should remove
             $filetype = $request->file('image')->getClientOriginalExtension();
             $filename = $post ->id . "." . $filetype;
             $request->validate([

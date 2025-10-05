@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Meal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,14 +34,22 @@ class FavoriteController extends Controller
         return response()->json($favorites);
     }
 
-    public function FavoriteUserPost($userId, $postId){
+    public function FavoriteUserPost($userId, $postId){ //should renaem you forgot what you did the next day
         $user = User::findOrFail($userId);
         $favorite = $user->favorites()->where('id', $postId)->first();
         return response()->json($favorite);
     }
 
-    public function ChangeFavorite($userId, $postId){
-        $user = User::findOrFail($userId);
-        $user->favorites()->toggle($postId);
+    public function ChangeFavorite($postId){
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        $favorite = Favorite::where('user_id', $user->id)->where('meal_id', $postId)->first();
+        if ($favorite){
+            $this->authorize('delete', $favorite);
+            $user->favorites()->toggle($postId);
+        } else {
+            $user->favorites()->toggle($postId);
+        }
     }
 }

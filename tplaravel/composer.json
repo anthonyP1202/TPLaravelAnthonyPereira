@@ -13,6 +13,8 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.6",
         "spatie/laravel-permission": "^6.21",
+        "symfony/http-client": "^7.3",
+        "symfony/mailgun-mailer": "^7.1",
         "xvladqt/faker-lorem-flickr": "^1.0"
     },
     "require-dev": {

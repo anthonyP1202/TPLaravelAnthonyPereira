@@ -67,7 +67,7 @@ Route::middleware(['auth', 'user'])->get('/userFavorites/{id}', [FavoriteControl
 Route::middleware(['auth', 'user'])->get('/userFavoritePost/{userId}/{postId}', [FavoriteController::class, 'FavoriteUserPost'])
     ->name('favoritesUserPost.show');
 
-Route::middleware(['auth', 'user'])->get('/userToggleFavorite/{userId}/{postId}', [FavoriteController::class, 'ChangeFavorite'])
+Route::middleware(['auth', 'user'])->get('/userToggleFavorite/{postId}', [FavoriteController::class, 'ChangeFavorite'])
     ->name('toggleUserPost.show');
 
 Route::middleware(['auth', 'user'])->get('/mealFavoriteCount/{postId}', [FavoriteController::class, 'FavoritesPostCount'])

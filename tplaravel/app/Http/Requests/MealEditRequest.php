@@ -23,7 +23,7 @@ class MealEditRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:100'],
-            'recipie' => ['required','string', 'max:2048']
+            'description' => ['required','string', 'max:2048']
         ];
     }
 }
