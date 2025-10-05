@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\postController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,22 +36,41 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::middleware(['auth'])->get('/meal/{id}/edit', [PostController::class, 'Edit'])
+// meals
+
+Route::middleware(['auth', 'admin'])->get('/meal/{id}/edit', [PostController::class, 'Edit'])
     ->name('meal.redirect.edit');
 
-Route::middleware(['auth'])->get('/meals', [PostController::class, 'Meals'])
+Route::middleware(['auth', 'user'])->get('/meals', [PostController::class, 'Meals'])
     ->name('meals.show');
 
-Route::middleware(['auth'])->get('/meal/{id}', [PostController::class, 'Meal'])
+Route::middleware(['auth', 'user'])->get('/meal/{id}', [PostController::class, 'Meal'])
     ->name('meal.show');
 
-Route::middleware(['auth'])->get('/deleteMeal/{id}', [PostController::class, 'DeleteMeal'])
+Route::middleware(['auth', 'user'])->get('/deleteMeal/{id}', [PostController::class, 'DeleteMeal'])
     ->name('meal.delete');
 
-Route::middleware(['auth'])->post('/editMeal/{id}', [PostController::class, 'EditPost'])
+Route::middleware(['auth', 'admin'])->post('/editMeal/{id}', [PostController::class, 'EditPost'])
     ->name('meal.edit');
 
-Route::middleware(['auth'])->post('/createMeal', [PostController::class, 'MealPost'])
+Route::middleware(['auth', 'admin'])->post('/createMeal', [PostController::class, 'MealPost'])
     ->name('meal.create');
+
+// favorite
+
+Route::middleware(['auth', 'user'])->get('/favoritesCount', [FavoriteController::class, 'FavoritesCount'])
+    ->name('favorites.count');
+
+Route::middleware(['auth', 'user'])->get('/userFavorites/{id}', [FavoriteController::class, 'FavoriteUser'])
+    ->name('favoritesUser.show');
+
+Route::middleware(['auth', 'user'])->get('/userFavoritePost/{userId}/{postId}', [FavoriteController::class, 'FavoriteUserPost'])
+    ->name('favoritesUserPost.show');
+
+Route::middleware(['auth', 'user'])->get('/userToggleFavorite/{userId}/{postId}', [FavoriteController::class, 'ChangeFavorite'])
+    ->name('toggleUserPost.show');
+
+Route::middleware(['auth', 'user'])->get('/mealFavoriteCount/{postId}', [FavoriteController::class, 'FavoritesPostCount'])
+    ->name('mealFavoriteCount.show');
 
 require __DIR__.'/auth.php';

@@ -17,7 +17,7 @@ class Meal extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function likedBy() : BelongsToMany
+    public function favorites() : BelongsToMany
     {
         return $this->belongsToMany(User::class, $table = 'favorite');
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MealCreateRequest;
+use App\Http\Requests\MealEditRequest;
 use App\Models\Meal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,11 +38,10 @@ class postController extends Controller
         $post -> delete();
     }
 
-    public function MealPost(Request $request){
+    public function MealPost(MealCreateRequest $request){
 
-        $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png',
-        ]);
+        $validated = $request->validated();
+
         $filetype = $request->file('image')->getClientOriginalExtension();
 
         $encryptedRecipe = encrypt($request->input("recipie"));
@@ -61,7 +62,7 @@ class postController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function EditPost($id, Request $request){
+    public function EditPost($id, MealEditRequest $request){
 
         $post = Meal :: find($id);
         if ($request->input("title") != null) {

@@ -15,7 +15,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    public function likes() : BelongsToMany
+    public function favorites() : BelongsToMany
     {
         return $this->belongsToMany(Meal::class, $table = 'favorite');
     }

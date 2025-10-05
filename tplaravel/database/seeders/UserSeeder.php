@@ -23,7 +23,8 @@ class UserSeeder extends Seeder
         $meals = Meal::all();
 
         User::all()->each(function ($user) use ($meals) {
-           $user->likes()->attach($meals->random(3)->pluck('id')->toArray()); //future me deal with double user faving the same things twice
+           $user->favorites()->attach($meals->random(3)->pluck('id')->toArray()); //future me deal with double user faving the same things twice
+                                                                                                 //past me no
         });
     }
 }
